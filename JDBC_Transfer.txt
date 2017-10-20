@@ -1,0 +1,83 @@
+CREATE TABLE WritingGroups (
+    groupname VARCHAR(50) NOT NULL,
+    headwriter VARCHAR(50),
+    yearformed INT,
+    subject VARCHAR(20),
+    PRIMARY KEY (groupname));
+
+CREATE TABLE Books(
+    groupname VARCHAR(50) NOT NULL,
+    booktitle VARCHAR(50) NOT NULL,
+    publishername VARCHAR (50),
+    yearpublished INT,
+    numberpages INT,
+    PRIMARY KEY(groupname,booktitle),
+    FOREIGN KEY (groupname) REFERENCES WritingGroups(groupname)
+   
+);
+
+CREATE TABLE Publishers (
+   publishername VARCHAR(50) NOT NULL,
+   publisheraddress VARCHAR(50),
+   publisherphone VARCHAR(50),
+   publisheremail VARCHAR(50),
+   PRIMARY KEY (publishername));
+
+ALTER TABLE Books
+ADD FOREIGN KEY (publishername) REFERENCES Publishers(publishername);
+
+
+
+INSERT INTO WritingGroups (groupname,headwriter,yearformed,subject) VALUES('KillerFantasy','Gibson,Matt',1973,'Fiction');
+INSERT INTO WritingGroups (groupname,headwriter,yearformed,subject) VALUES('Biographies','Smith,Chris',1924,'Fiction');
+INSERT INTO WritingGroups (groupname,headwriter,yearformed,subject) VALUES('Non-Fictionists','Johnson,Kelly',2105,'Fiction');
+INSERT INTO WritingGroups (groupname,headwriter,yearformed,subject) VALUES('GamerLife','Pekovic,Peter',4732,'Fiction');
+INSERT INTO WritingGroups (groupname,headwriter,yearformed,subject) VALUES('Religiousness','Samsonite, Samantha',1990,'Fiction');
+INSERT INTO WritingGroups (groupname,headwriter,yearformed,subject) VALUES('HackersAnonymous','Faker, Blank',1976,'Fiction');
+INSERT INTO WritingGroups (groupname,headwriter,yearformed,subject) VALUES('HumanProduction','Hans Sama',1874,'Fiction');
+INSERT INTO WritingGroups (groupname,headwriter,yearformed,subject) VALUES('MisFits','Biergsen, Tomas',1375,'Fiction');
+INSERT INTO WritingGroups (groupname,headwriter,yearformed,subject) VALUES('KitchenExperts','Pons, Hans',2209,'Fiction');
+INSERT INTO WritingGroups (groupname,headwriter,yearformed,subject) VALUES('CriticalPrep', 'Stem, Celine',2108,'Fiction');
+INSERT INTO WritingGroups (groupname,headwriter,yearformed,subject) VALUES('DisasterReady','Porridge, Patricia',2009,'Fiction');
+INSERT INTO WritingGroups (groupname,headwriter,yearformed,subject) VALUES('Serenity','Lama, Dahli',2010,'Fiction');
+INSERT INTO WritingGroups (groupname,headwriter,yearformed,subject) VALUES('EMC','Crash, Johnny',2019,'Fiction');
+INSERT INTO WritingGroups (groupname,headwriter,yearformed,subject) VALUES('Mindfulness','Yogi, Ryan',1991,'Fiction');
+INSERT INTO WritingGroups (groupname,headwriter,yearformed,subject) VALUES('AllBusiness','Mill, Eugene',3452,'Fiction');
+
+
+
+
+
+INSERT INTO Books (groupname,booktitle,publishername,yearformed,numberpages) VALUES('KillerFantasy','Afterlife','Mongul Media',1990,387);
+INSERT INTO Books (groupname,booktitle,publishername,yearformed,numberpages) VALUES('KillerFantasy','One Punch Man','Mongul Media',2001,207);
+INSERT INTO Books (groupname,booktitle,publishername,yearformed,numberpages) VALUES('GamerLife','TekkenMechanics','Simplicity',4738,500);
+INSERT INTO Books (groupname,booktitle,publishername,yearformed,numberpages) VALUES('Serenity','Diet for Clarity','K.W.S',2014,187);
+INSERT INTO Books (groupname,booktitle,publishername,yearformed,numberpages) VALUES('Mindfulness','Meditation: 101','Finished Inc.',1999,150);
+INSERT INTO Books (groupname,booktitle,publishername,yearformed,numberpages) VALUES('Mindfulness',' Yoga for the Soul','Finished Inc.',1992,125);
+INSERT INTO Books (groupname,booktitle,publishername,yearformed,numberpages) VALUES('HackersAnonymous','Breaking in: Ethical Mentality','LeagueofPublishers',1980,301);
+INSERT INTO Books (groupname,booktitle,publishername,yearformed,numberpages) VALUES('Serenity','Exercise: Life Guide','K.W.S',2017,283);
+INSERT INTO Books (groupname,booktitle,publishername,yearformed,numberpages) VALUES('HackersAnonymous','Hackathon: 2017','LeagueofPublishers',1978,203);
+INSERT INTO Books (groupname,booktitle,publishername,yearformed,numberpages) VALUES('CriticalPrep','Earthquake Prep: What to Have Ready','Written Inc.',2109,429);
+INSERT INTO Books (groupname,booktitle,publishername,yearformed,numberpages) VALUES('CriticalPrep','Meal Recipes: Prepping for Health','Written Inc.',2111,143);
+INSERT INTO Books (groupname,booktitle,publishername,yearformed,numberpages) VALUES('HumanProduction','How To: Project Managing','Catch Media',1877,398);
+INSERT INTO Books (groupname,booktitle,publishername,yearformed,numberpages) VALUES('HumanProduction','How Its Made: Robots','Catch Media',1880,401);
+INSERT INTO Books (groupname,booktitle,publishername,yearformed,numberpages) VALUES('Biographies','Al Capone','ReadtoRead',1929,277);
+INSERT INTO Books (groupname,booktitle,publishername,yearformed,numberpages) VALUES('AllBusiness','Stock Market: Learning to Trade','P.B.B',3459,294);
+
+
+
+INSERT INTO Publishers (publishername,publisheraddress,publisherphone,publisheremail) VALUES('Mongul Media','1234 Tratiors Lane, NYC, 12402','103-239-1492','mm@mmedia.com');
+INSERT INTO Publishers (publishername,publisheraddress,publisherphone,publisheremail) VALUES('P.B.B',' 930 Quint Ln, Sydney, Australia','+9-283-103-9281','pbb@pbb.au');
+INSERT INTO Publishers (publishername,publisheraddress,publisherphone,publisheremail) VALUES('ReadtoRead','510 Yup Blvd, Culver CA, 90403','310-182-1231','r2r@culver.com');
+INSERT INTO Publishers (publishername,publisheraddress,publisherphone,publisheremail) VALUES('Written Inc.','20912 Beverely Blvd, Los Angeles CA, 90210','454-392-1029','wi2me@wi2.com');
+INSERT INTO Publishers (publishername,publisheraddress,publisherphone,publisheremail) VALUES('Control Publishers','12 Price Ln, Munich, Germany','+2-938-192-8391','cpp@handle.gr');
+INSERT INTO Publishers (publishername,publisheraddress,publisherphone,publisheremail) VALUES('Pliny Inc.','56 First St., London, England','+5-123-512-2123','plinyme@pliny.eg');
+INSERT INTO Publishers (publishername,publisheraddress,publisherphone,publisheremail) VALUES('Finished Inc.','19230 Nogo Blvd, Xyxxx, CA, 90023','232-123-2132','finish@xyxx.com');
+INSERT INTO Publishers (publishername,publisheraddress,publisherphone,publisheremail) VALUES('Publishing Apt.','57483 Ok St., Seattle, WA, 87522','444-049-6832','pubapt@was.edu');
+INSERT INTO Publishers (publishername,publisheraddress,publisherphone,publisheremail) VALUES('Decisions LLC.','092 Quad 3, Niagra Falls, NY','234-485-6710','decisionsllc@nyllc.com');
+INSERT INTO Publishers (publishername,publisheraddress,publisherphone,publisheremail) VALUES('Simplicity','1 Ln #093, Bangkok, Thailand','+7-573-6729','simply@simplicity.th');
+INSERT INTO Publishers (publishername,publisheraddress,publisherphone,publisheremail) VALUES('K.W.S',' 38212 Believe Blvd, San Diego, CA, 92122','858-098-7675','kws@kwssd.com');
+INSERT INTO Publishers (publishername,publisheraddress,publisherphone,publisheremail) VALUES('Catch Media',' 12343 Grip St., Tacoma, Oklahoma','782-681-4610','catchmedia@tacok.com');
+INSERT INTO Publishers (publishername,publisheraddress,publisherphone,publisheremail) VALUES('LeagueofPublishers','12 Box St., Seoul, South Korea','+34-686-039812','League@seoul.sk');
+INSERT INTO Publishers (publishername,publisheraddress,publisherphone,publisheremail) VALUES('ScienceInfo',' 4542 Apple St., Palo Alto, CA','805-094-1752','scienceInfo@scienceinfo.com');
+INSERT INTO Publishers (publishername,publisheraddress,publisherphone,publisheremail) VALUES('AllInfo','1 Blvd, D.C, USA','673-284-5719','information@dcusa.com');
