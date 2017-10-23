@@ -114,13 +114,19 @@ public class JDBCSampleSource_odd {
                 System.out.printf(displayFormat, dispNull(bookTitle));
             }
             
+            //Remove book
             System.out.println("What book would you like to delete?");
             String dBook = in.nextLine();
-            sql = "DELETE FROM books " +
-                   "WHERE booktitle =" + dBook;
-            stmt.executeUpdate(sql);
             
-            System.out.print("\n");
+            String query = "DELETE FROM BOOKS WHERE BOOKTITLE = ?";
+            PreparedStatement statement = null;
+            try {
+                statement = conn.prepareStatement(query);
+                statement.setString(1, dBook);
+                statement.executeUpdate();
+            } catch(SQLException e) { e.printStackTrace(); }
+        
+            System.out.println(dBook + " deleted.\n");
 
             //STEP 6: Clean-up environment
             rs.close();
