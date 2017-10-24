@@ -19,6 +19,7 @@ public class JDBCSampleSource {
     //The number indicates how wide to make the field.
     //The "s" denotes that it's a string.  All of our output in this test are
     //strings, but that won't always be the case.
+    static final String displayFormatTrunc = "%15s\n";
     static final String displayFormat="%-20s%20s%15s%15s\n";
     static final String displayFormatPublisher = "%-25s%25s%25s%25s\n";
     static final String displayFormatBooks = "%-20s%40s%15s%15s%5s\n";
@@ -75,21 +76,21 @@ public class JDBCSampleSource {
              System.out.println("Creating statement...");
             stmt = conn.createStatement();
             String sql;
-            sql = "SELECT GROUPNAME FROM WRITINGGROUPS";
+            sql = "SELECT groupname FROM WRITINGGROUPS";
             ResultSet rs = stmt.executeQuery(sql);
-            Statement stup = null;
+            //Statement stup = null;
 
             //STEP 5: Extract data from result set
             
             //List all writing groups
-            System.out.printf(displayFormat, "GROUP NAME");
+            System.out.printf(displayFormatTrunc, "GROUP NAME");
             while (rs.next()) {
                 //Retrieve by column name
-                String groupName = rs.getString("GROUPNAME");
+                String groupName = rs.getString("groupname");
                 
 
                 //Display values
-                System.out.printf(displayFormat,
+                System.out.printf(displayFormatTrunc,
                         dispNull(groupName));
             }
             
@@ -103,7 +104,7 @@ public class JDBCSampleSource {
             sql = "SELECT * FROM WritingGroups WHERE groupname ='" + userInput + "'";
             rs = stmt.executeQuery(sql);
             
-            System.out.printf(displayFormat, "GroupName ", "Head Writer", " YearFormed", " Subject");
+            System.out.printf(displayFormat, "Group Name ", "Head Writer", " YearFormed", " Subject");
             while (rs.next()) {
                 //Retrieve by column name
                 String group = rs.getString("groupname");
@@ -144,11 +145,11 @@ public class JDBCSampleSource {
             sql = "SELECT publishername FROM Publishers";
             rs = stmt.executeQuery(sql);
             
-            System.out.printf(displayFormat, "PUBLISHER NAME");
+            System.out.printf(displayFormatTrunc, "PUBLISHER NAME");
             while(rs.next()){
                 String publisherName = rs.getString("PUBLISHERNAME");
                 
-                System.out.printf(displayFormat, dispNull(publisherName));
+                System.out.printf(displayFormatTrunc, dispNull(publisherName));
             }
             
             System.out.print("\n");
@@ -199,11 +200,11 @@ public class JDBCSampleSource {
             sql = "select booktitle from books";
             rs = stmt.executeQuery(sql);
             
-            System.out.printf(displayFormat, "BOOK TITLE");
+            System.out.printf(displayFormatTrunc, "BOOK TITLE");
             while(rs.next()){
                 String bookTitle = rs.getString("BOOKTITLE");
                 
-                System.out.printf(displayFormat, dispNull(bookTitle));
+                System.out.printf(displayFormatTrunc, dispNull(bookTitle));
             }
             
             System.out.print("\n");
@@ -239,19 +240,29 @@ public class JDBCSampleSource {
             } 
              stmt.close();
              rs.close();
-             sql = "INSERT INTO books VALUES('KillerFantasy', 'Naruto', 'Mongul Media', 1995, 400)";
-            stmt.executeUpdate(sql);
-            
+             
+             //Insert a new book
             System.out.println("Creating statement...");
             stmt = conn.createStatement();
-            sql = "select booktitle from books";
+            String BooksNew[] = {"Naruto","X-Men","DeadPool","AquaMan","RickAndMorty"};
+            int choice = rand.nextInt(5);
+             sql = "INSERT INTO Books VALUES('KillerFantasy','"+BooksNew[choice]+"', 'Mongul Media', 1995, 400)";
+            stmt.executeUpdate(sql);
+            stmt.close();
+            //Select all books
+            System.out.println("Creating statement...");
+            stmt = conn.createStatement();
+            sql = "SELECT booktitle FROM Books";
             rs = stmt.executeQuery(sql);
-            System.out.printf(displayFormat, "BOOK TITLE");
+            System.out.printf(displayFormatTrunc, "BOOK TITLE");
             while(rs.next()){
                 String bookTitle = rs.getString("BOOKTITLE");
                 
-                System.out.printf(displayFormat, dispNull(bookTitle));
+                System.out.printf(displayFormatTrunc, dispNull(bookTitle));
             }
+            rs.close();
+            stmt.close();
+            
             //Insert a new publisher and update all book published by one publisher to be published by the new publisher
              int Entry = rand.nextInt(16);
              int newEntry = rand.nextInt(10);
@@ -262,21 +273,23 @@ public class JDBCSampleSource {
              String PubNameNew[] = {"NewWriting","Oldies","CriticalWriting","IAS Inc.","Employ","Enjoyed Inc.","ShortStory","Final Inc.","SmartWrite"};
              
              // Insert a new publisher and update all books published by one publisher to be published by the new publisher
-             System.out.print("Publisher: " + PubNameOld[Entry] + "has been bought out");
-             String queryNew = " INSERT INTO Publishers WHERE publishername = ?"
-                     + " VALUES('"+ PubNameNew[newEntry] + "','19230 Nogo Blvd, Xyxxx, CA, 90023','232-123-2132','finish@xyxx.com')";;
-            PreparedStatement statementNew = null;
-            try {
+             System.out.println("Creating statement...");
+             stmt = conn.createStatement();
+             System.out.print("Publisher: " + PubNameOld[Entry] + "has been bought out\n");
+             sql = " INSERT INTO Publishers VALUES('"+ PubNameNew[newEntry] + "','19230 Nogo Blvd, Xyxxx, CA, 90023','232-123-2132','finish@xyxx.com')";
+             stmt.executeUpdate(sql);
+            
+            /*try {
                 statementNew = conn.prepareStatement(queryNew);
                 statementNew.setString(1, PubNameOld[Entry]); // Sets string name to a new publishers name
                 statementNew.executeUpdate();
                 //conn.commit();
-            } catch(SQLException e) { e.printStackTrace(); }
+            } catch(SQLException e) { e.printStackTrace(); }*/
             
-            
+             stmt.close();
              System.out.println("Creating Statement...");
              stmt = conn.createStatement();
-           
+             PreparedStatement statementNew = null;
              //Update Books Relation with new publisher
              sql = "UPDATE Books " + "SET publishername = ?" + "WHERE publishername = ?"; 
              try{
@@ -287,7 +300,8 @@ public class JDBCSampleSource {
              
              }catch(SQLException e) { e.printStackTrace(); }
              
-             sql = "SELECT * FROM Books WHERE publishername = 'ThronePublishing'";
+             //Select Book data for books that have a new publisher
+             /*sql = "SELECT * FROM Books WHERE publishername = '"+PubNameNew[newEntry]+"'";
              rs = stmt.executeQuery(sql);
              System.out.printf(displayFormatBooks, "Group Name", "Book Title", "Publisher Name", "Year Published", "Number Pages");
              while(rs.next()){
@@ -299,7 +313,7 @@ public class JDBCSampleSource {
                  
                  System.out.printf(displayFormatBooks,dispNull(group),dispNull(call),dispNull(publish),dispNull(yr),dispNull(numpgs));
                  
-             }
+             }*/
              
              //Remove book
             System.out.println("What book would you like to delete?");
