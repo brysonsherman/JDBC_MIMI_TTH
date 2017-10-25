@@ -21,8 +21,8 @@ public class JDBCSampleSource {
     //strings, but that won't always be the case.
     static final String displayFormatTrunc = "%15s\n";
     static final String displayFormat="%-20s%20s%15s%15s\n";
-    static final String displayFormatPublisher = "%-25s%25s%25s%25s\n";
-    static final String displayFormatBooks = "%-20s%40s%15s%15s%5s\n";
+    static final String displayFormatPublisher = "%-25s%45s%35s%35s\n";
+    static final String displayFormatBooks = "%-20s%40s%19s%19s%15s\n";
     static final String displayFormatBookJoinColumn="%-40s%20s%16s%20s%40s%30s%20s%20s%20s%20s%10s\n";
     static final String displayFormatBookJoin="%-40s%10s%20s%25s%50s%19s%20s%23s%20s%15s%15s\n";
     static final String divider = "------------------------------------------------------------------"
@@ -45,8 +45,8 @@ public class JDBCSampleSource {
             return input;
     }
     
-
-   /* public static boolean Groupchecker(ResultSet rs, String userInput){
+ 
+    /*public static boolean Groupchecker(ResultSet rs, String userInput){
         
           try {    
             while(rs.next()){
@@ -370,7 +370,7 @@ public class JDBCSampleSource {
              sql = "SELECT * FROM Books";
              rs = stmt.executeQuery(sql);
              System.out.printf("Old Books List\n");
-             System.out.printf(displayFormat, "Group Name", "Book Title", "Publisher Name", "Year Published", "Number Pages");
+             System.out.printf(displayFormatBooks, "Group Name", "Book Title", "Publisher Name", "Year Published", "Number Pages");
              while(rs.next()){
                  String group = rs.getString("groupname");
                  String call = rs.getString("booktitle");
@@ -399,7 +399,7 @@ public class JDBCSampleSource {
              rs = stmt.executeQuery(sql);
              System.out.printf("Books List who has a new Publisher");
              System.out.printf("\n");
-             System.out.printf(displayFormat, "Group Name", "Book Title", "Publisher Name", "Year Published", "Number Pages");
+             System.out.printf(displayFormatBooks, "Group Name", "Book Title", "Publisher Name", "Year Published", "Number Pages");
              while(rs.next()){
                  String group = rs.getString("groupname");
                  String call = rs.getString("booktitle");
